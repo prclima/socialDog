@@ -1,0 +1,27 @@
+.login {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.login::before {
+  display: block;
+  content: "";
+  background: url("../../Assets/capa.png") no-repeat center center;
+  background-size: cover;
+}
+
+.forms {
+  max-width: 30rem;
+  padding: 1rem;
+}
+
+@media (max-width: 40rem) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+  .login::before {
+    display: none;
+  }
+}
