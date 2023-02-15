@@ -5,7 +5,8 @@ import useForm from "../../Hooks/useForm";
 import Button from "../Form/Button";
 import Input from "../Form/Input";
 import { userContexto } from "../../UserContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const username = useForm();
@@ -24,7 +25,7 @@ function LoginForm() {
       <h1 className="title">Login</h1>
       <form className={style.form}>
         <Input label="Usuario" type="text" name="userName" {...username} />
-       *
+
         <Input label="Senha" type="password" name="password" {...password} />
         {loading ? (
           <Button disabled={loading} onClick={HandleSubmit}>

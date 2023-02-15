@@ -15,7 +15,7 @@ function Header() {
         </Link>
         {data ? (
           <Link className={style.login} to="/conta">
-            {data.nome}
+            {data.data.display_name}
           </Link>
         ) : (
           <Link className={style.login} to="/login">

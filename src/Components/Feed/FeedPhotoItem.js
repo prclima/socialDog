@@ -13,7 +13,7 @@ function FeedPhotoItem({ photo, setModalPhoto }) {
     <li className={style.photo} onClick={HandleClick}>
       <img src={photo.src} alt={photo.title} />
 
-      <span className={style.visualizacao}>{photo.acessos} FeedPhotoItem</span>
+      <span className={style.visualizacao}>{photo.acessos} </span>
     </li>
   );
 }

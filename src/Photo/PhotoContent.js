@@ -29,7 +29,8 @@ function PhotoContent() {
           </ul>
         </div>
       </div>
-      <PhotoComments id={clickPhoto.id} comments={"comments"} />
+
+      <PhotoComments id={clickPhoto.id} comments={`photo.comments`} />
     </div>
   );
 }

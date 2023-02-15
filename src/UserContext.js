@@ -12,6 +12,7 @@ export function UserLogica({ children }) {
   const [photos, setPhotos] = useState([]);
   const [photo, setPhoto] = useState();
   const [clickPhoto, setClickPhoto] = useState(null);
+  const [comentarioAPI, setComentarioAPI] = useState(null);
 
   const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ export function UserLogica({ children }) {
           setError(null);
           setLoading(true);
           const response = await axios.post(
-            "https://dogsapi.origamid.dev/json/jwt-auth/v1/token/validate",
+            "http://dogapi.test/json/jwt-auth/v1/token/validate",
             null,
             config
           );
@@ -55,7 +56,7 @@ export function UserLogica({ children }) {
       };
 
       const response = await axios.get(
-        "https://dogsapi.origamid.dev/json/api/user",
+        "http://dogapi.test/json/api/user",
         config
       );
 
@@ -63,6 +64,8 @@ export function UserLogica({ children }) {
       setLogin(true);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -72,12 +75,12 @@ export function UserLogica({ children }) {
       setLoading(true);
 
       const response = await axios.post(
-        "https://dogsapi.origamid.dev/json/jwt-auth/v1/token",
+        "http://dogapi.test/json/jwt-auth/v1/token",
         infos
       );
 
       window.localStorage.setItem("token", response.data.token);
-      GetUser();
+      await GetUser();
       navigate("/conta");
     } catch (err) {
       setError("Erro Login");
@@ -107,10 +110,11 @@ export function UserLogica({ children }) {
       setLoading(true);
 
       const response = await axios.post(
-        "https://dogsapi.origamid.dev/json/api/user",
+        "http://dogapi.test/json/api/user",
+
         infos
       );
-      console.log(response);
+
       UserLogin(infoAuto);
       navigate("/conta");
     } catch (err) {
@@ -131,7 +135,7 @@ export function UserLogica({ children }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://dogsapi.origamid.dev/json/api/photo",
+        "http://dogapi.test/json/api/photo",
         body,
         config
       );
@@ -150,11 +154,9 @@ export function UserLogica({ children }) {
   async function FetchPhotos({ page, total, user }) {
     try {
       const response = await axios.get(
-        `https://dogsapi.origamid.dev/json/api/photo/?_page=${page}&_total=${total}&_user=${user}`
+        `http://dogapi.test/json/api/photo/?_page=${page}&_total=${total}&_user=${user}`
       );
-
       setPhotos(response.data);
-      console.log(response);
     } catch (err) {
       console.log(err);
     } finally {
@@ -164,17 +166,38 @@ export function UserLogica({ children }) {
 
   async function PhotoGet(id) {
     try {
-      console.log(id);
       const response = await axios.get(
-        `https://dogsapi.origamid.dev/json/api/photo/?${id}`
+        `http://dogapi.test/json/api/photo/${id}`
       );
 
-      setPhoto(response.data);
-      console.log(response);
+      await setPhoto(response.data);
+      console.log(photo);
     } catch (err) {
       console.log(err);
     } finally {
       console.log("acabou PhotoGet");
+    }
+  }
+
+  async function CommentPost(id, { comment }) {
+    const body = { comment: comment };
+
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.post(
+        `http://dogapi.test/json/api/comment/${id}`,
+        body,
+        config
+      );
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log("acabou CommentPost");
     }
   }
 
@@ -194,6 +217,8 @@ export function UserLogica({ children }) {
         photo,
         setClickPhoto,
         clickPhoto,
+        comentarioAPI,
+        CommentPost,
       }}
     >
       {children}

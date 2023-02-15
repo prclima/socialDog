@@ -11,7 +11,7 @@ function FeedPhotos({ setModalPhoto }) {
   }, []);
 
   if (photos);
- 
+
   return (
     <ul className={`${style.feed} animeLeft`}>
       {photos.map((item) => (

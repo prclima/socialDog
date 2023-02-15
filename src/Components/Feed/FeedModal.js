@@ -9,10 +9,11 @@ function FeedModal({ photo, setModalPhoto }) {
   //PhotoGet é a funcao que busca a foto clicada
 
   console.log("FeedModal");
-  console.log(photo);
+
   useEffect(() => {
+    
     PhotoGet(photo.id);
-  }, [photo]);
+  }, [photo, photo.id]);
 
   function HandleOutsideClick(e) {
     if (e.target === e.currentTarget) {
@@ -23,7 +24,7 @@ function FeedModal({ photo, setModalPhoto }) {
   return (
     <div className={style.modal} onClick={HandleOutsideClick}>
       {/* <img src={photo.src} alt="" /> */}
-      {clickPhoto && <PhotoContent />}
+      {clickPhoto && <PhotoContent photoclidada={photo.id} />}
     </div>
   );
 }
