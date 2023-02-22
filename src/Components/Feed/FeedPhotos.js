@@ -3,11 +3,11 @@ import { userContexto } from "../../UserContext";
 import FeedPhotoItem from "./FeedPhotoItem";
 import style from "./FeedPhotos.module.css";
 
-function FeedPhotos({ setModalPhoto }) {
+function FeedPhotos({ user, setModalPhoto }) {
   const { FetchPhotos, photos } = useContext(userContexto);
 
   useEffect(() => {
-    FetchPhotos({ page: 1, total: 6, user: 0 });
+    FetchPhotos({ page: 1, total: 6, user });
   }, []);
 
   if (photos);
@@ -21,7 +21,6 @@ function FeedPhotos({ setModalPhoto }) {
           photo={item}
         />
       ))}
-      FeedPhotos
     </ul>
   );
 }

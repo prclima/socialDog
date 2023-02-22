@@ -8,7 +8,7 @@ function Feed() {
   return (
     <div>
       {modalPhoto && (
-        <FeedModal photo={modalPhoto} setModalPhoto={setModalPhoto} />
+        <FeedModal photos={modalPhoto} setModalPhoto={setModalPhoto} />
       )}
 
       <FeedPhotos setModalPhoto={setModalPhoto} />

@@ -13,6 +13,7 @@ export function UserLogica({ children }) {
   const [photo, setPhoto] = useState();
   const [clickPhoto, setClickPhoto] = useState(null);
   const [comentarioAPI, setComentarioAPI] = useState(null);
+  const [count, setCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -91,17 +92,13 @@ export function UserLogica({ children }) {
     }
   }
 
-  async function UserLogout() {
-    try {
-      setData(null);
-      setError(null);
-      setLoading(false);
-      setLogin(false);
-      window.localStorage.removeItem("token");
-      navigate("/login");
-    } catch (err) {
-      console.log(err);
-    }
+  function UserLogout() {
+    setData(null);
+    setError(null);
+    setLoading(false);
+    setLogin(false);
+    window.localStorage.removeItem("token");
+    navigate("/login");
   }
 
   async function UserCreate(infos, infoAuto) {
@@ -157,6 +154,14 @@ export function UserLogica({ children }) {
         `http://dogapi.test/json/api/photo/?_page=${page}&_total=${total}&_user=${user}`
       );
       setPhotos(response.data);
+      setPhoto({
+        photo: {
+          photo: "Sistema",
+        },
+        comment_author: ["Sistema"],
+        comment_ID: [0],
+        comments: ["sem comentários ainda ;/"],
+      });
     } catch (err) {
       console.log(err);
     } finally {
@@ -165,13 +170,14 @@ export function UserLogica({ children }) {
   }
 
   async function PhotoGet(id) {
+    console.log("photoGt start");
+
     try {
       const response = await axios.get(
         `http://dogapi.test/json/api/photo/${id}`
       );
 
-      await setPhoto(response.data);
-      console.log(photo);
+      setPhoto(response.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -179,9 +185,9 @@ export function UserLogica({ children }) {
     }
   }
 
-  async function CommentPost(id, { comment }) {
-    const body = { comment: comment };
-
+  async function CommentPost(id, { commentSend }) {
+    const body = { comment: commentSend };
+    setCount(10);
     const token = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${token}` },
@@ -193,7 +199,8 @@ export function UserLogica({ children }) {
         body,
         config
       );
-      console.log(response);
+
+      PhotoGet(id);
     } catch (err) {
       console.log(err);
     } finally {
@@ -201,10 +208,32 @@ export function UserLogica({ children }) {
     }
   }
 
+  async function PhotoDelete(id) {
+    console.log("comecou Delete");
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      await axios.delete(
+        `http://dogapi.test/json/api/photo/${id}`,
+
+        config
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log("acabou Delete");
+    }
+  }
+
   return (
     <userContexto.Provider
       value={{
+        setData,
         UserLogin,
+        setLogin,
         data,
         UserLogout,
         loading,
@@ -215,10 +244,14 @@ export function UserLogica({ children }) {
         photos,
         PhotoGet,
         photo,
+        setPhoto,
         setClickPhoto,
         clickPhoto,
         comentarioAPI,
         CommentPost,
+        count,
+        setCount,
+        PhotoDelete,
       }}
     >
       {children}

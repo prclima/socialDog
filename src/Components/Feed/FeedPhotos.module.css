@@ -6,6 +6,10 @@
   justify-items: center;
 }
 
+.feed img {
+  width: auto;
+}
+
 @media (max-width: 40rem) {
   .feed {
     grid-template-columns: repeat(2, 1fr);
