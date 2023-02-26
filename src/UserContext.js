@@ -14,6 +14,7 @@ export function UserLogica({ children }) {
   const [clickPhoto, setClickPhoto] = useState(null);
   const [comentarioAPI, setComentarioAPI] = useState(null);
   const [count, setCount] = useState(0);
+  const [stats, setStats] = useState();
 
   const navigate = useNavigate();
 
@@ -149,6 +150,7 @@ export function UserLogica({ children }) {
   }
 
   async function FetchPhotos({ page, total, user }) {
+    console.log(user);
     try {
       const response = await axios.get(
         `http://dogapi.test/json/api/photo/?_page=${page}&_total=${total}&_user=${user}`
@@ -228,6 +230,28 @@ export function UserLogica({ children }) {
     }
   }
 
+  async function GetData() {
+    console.log("comecou GetData");
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.get(
+        `http://dogapi.test/json/api/stats`,
+
+        config
+      );
+      setStats(response.data);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log("GetData");
+    }
+  }
+
   return (
     <userContexto.Provider
       value={{
@@ -252,6 +276,8 @@ export function UserLogica({ children }) {
         count,
         setCount,
         PhotoDelete,
+        GetData,
+        stats,
       }}
     >
       {children}

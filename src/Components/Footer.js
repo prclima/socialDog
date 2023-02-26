@@ -1,7 +1,11 @@
 import style from "./Footer.module.css";
 
 function Footer() {
-  return <div>footer</div>;
+  return (
+    <footer className={style.footer}>
+      <p>Alguns direitos reservados</p>
+    </footer>
+  );
 }
 
 export default Footer;

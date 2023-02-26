@@ -7,6 +7,7 @@ import Login from "./Components/Login/Login";
 import { UserLogica } from "./UserContext";
 import User from "./Components/User/User";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import UserProfile from "./Components/User/UserProfile";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/perfil/:user" element={<UserProfile />} />
         </Routes>
         <Footer />
       </UserLogica>

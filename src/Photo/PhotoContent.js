@@ -7,7 +7,7 @@ import PhotoDelete from "./PhotoDelete";
 
 function PhotoContent({ photoclidada }) {
   const { PhotoGet, clickPhoto, photo, data } = useContext(userContexto);
-
+  console.log(clickPhoto);
   return (
     <div className={style.photo}>
       <div className={style.img}>
@@ -17,7 +17,7 @@ function PhotoContent({ photoclidada }) {
       <div className={style.details}>
         <div>
           <p className={style.author}>
-            {data.data && data.data.user_login === photo.photo.author ? (
+            {data.data && data.data.user_login === clickPhoto.author ? (
               <PhotoDelete id={clickPhoto.id} />
             ) : (
               <Link to={`/perfil/${clickPhoto.author}`}>

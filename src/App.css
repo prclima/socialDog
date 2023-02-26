@@ -52,7 +52,6 @@ input {
 
 .mainContainer {
   margin-top: 4rem;
-  background: red;
 }
 .animeLeft {
   opacity: 0;
@@ -86,4 +85,8 @@ input {
   left: -5px;
   border-radius: 0.2rem;
   z-index: -1;
+}
+
+.VictoryContainer {
+  height: initial !important;
 }
